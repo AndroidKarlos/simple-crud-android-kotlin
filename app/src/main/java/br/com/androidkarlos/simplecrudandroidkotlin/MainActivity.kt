@@ -6,25 +6,32 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
-    private val contacts = ArrayList<String>()
-    private lateinit var customAdapter: CustomAdapter
+    private val rvList: RecyclerView by lazy {
+        findViewById(R.id.rvListContact)
+    }
+    private var contactAdapter = ContactAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        var recyclerView: RecyclerView = findViewById(R.id.rvListContact)
-        customAdapter = CustomAdapter(contacts)
-        val layoutManager = LinearLayoutManager(applicationContext)
-        recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = customAdapter
-        prepareContacts()
+        bindViews()
     }
 
-    private fun prepareContacts(){
-        contacts.add("Marinilza")
-        contacts.add("Marinaldo")
-        contacts.add("Marta")
-        customAdapter.notifyDataSetChanged()
+    private fun bindViews(){
+        rvList.adapter = contactAdapter
+        rvList.layoutManager = LinearLayoutManager(this)
+        updateList()
     }
+
+    private fun updateList(){
+        contactAdapter.updateList(
+            arrayListOf(
+                Contact("Marinaldo", "(81) 98727-4322", ""),
+                Contact("Marinilza", "(81) 98727-4322", ""),
+                Contact("Marta", "(81) 98727-4322", "")
+            )
+        )
+    }
+
+
 }
